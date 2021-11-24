@@ -1,4 +1,9 @@
+<style>
 
+.blog-details-text .comment-option .single-comment-item.first-comment .sc-text:before {
+	height: 100px;
+}
+</style>
 
     <!-- Blog Details Hero Section Begin -->
     <section class="blog-details-hero set-bg" data-setbg="/~team2/my/lib/sona-master/img/blog/blog-details/blog-details-hero.jpg">
@@ -68,107 +73,107 @@
 							?> Comments</h4>
 							
 							
-						<div id="comment_area">	
-							<!--댓글 출력 시작-->
-							 <?php
-							  
-							  if (isset($data['comments'])) {
-								foreach ($data['comments'] as $comment) {
-								  $arr = explode(" ", $comment->writeday);
-								  $writedate_arr = explode("-", $arr[0]);
-								  $year = $writedate_arr[0];
-								  $month = $writedate_arr[1];
-								  $date = $writedate_arr[2];
+							
+								<!--댓글 출력 시작-->
+								 <?php
+								  
+								  if (isset($data['comments'])) {
+									foreach ($data['comments'] as $comment) {
+									  $arr = explode(" ", $comment->writeday);
+									  $writedate_arr = explode("-", $arr[0]);
+									  $year = $writedate_arr[0];
+									  $month = $writedate_arr[1];
+									  $date = $writedate_arr[2];
 
-								  $writetime_arr = explode(":", $arr[1]);
-								  $hour = $writetime_arr[0];
-								  $minite = $writetime_arr[1];
-								  $second = $writetime_arr[2];
-							?>
-                            <div class="single-comment-item first-comment">
-                                <div class="sc-author">
-                                    <img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-1.jpg" alt="">
-                                </div>
-                                <div class="sc-text">
-								<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초</span>
-								<?php
-									  foreach ($data['comment_users'] as $comment_user) {
-										if($comment_user->id == $comment->user_id) {
+									  $writetime_arr = explode(":", $arr[1]);
+									  $hour = $writetime_arr[0];
+									  $minite = $writetime_arr[1];
+									  $second = $writetime_arr[2];
 								?>
-											<h5><?=$comment_user->name?></h5>
-								<?php
-										}
-									  }
-								?>
-                                    <p><?=$comment->content?></p>
-                                    
-                                    <a onclick="clickCommentBtn('co<?=$comment->id?>')" class="comment-btn">Reply</a>
-									
-									<br><br>
-									<div class="leave-comment" id="co<?=$comment->id?>" style="display : none;">
-										<form class="comment-form">
-											<div class="row">
-												<div class="col-lg-12 text-center">
-													<textarea placeholder="내용" id="recomment<?=$comment->id?>"></textarea>
-													<button type="button" onclick="createRecoment(<?=$comment->id?>, 'recomment<?=$comment->id?>', <?=$data['review']->id?>);" class="site-btn" >Send</button>
-												</div>
-											</div>
-										</form>
+								<div class="single-comment-item first-comment">
+									<div class="sc-author">
+										<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-1.jpg" alt="">
 									</div>
-                                </div>
-                            </div>
-							<!--댓글 출력 끝-->
-							
-							
-							
-							<!--대댓글 출력 시작-->
-							<?php
-							  
-							  if(isset($data['recomments'])) {
-								foreach ($data['recomments'] as $recomment) {
-								  if($recomment->comment_id == $comment->id) {
-									$arr = explode(" ", $recomment->writeday);
-									$writeday_arr = explode("-", $arr[0]);
-									$year = $writeday_arr[0];
-									$month = $writeday_arr[1];
-									$date = $writeday_arr[2];
+									<div class="sc-text">
+									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초</span>
+									<?php
+										  foreach ($data['comment_users'] as $comment_user) {
+											if($comment_user->id == $comment->user_id) {
+									?>
+												<h5><?=$comment_user->name?></h5>
+									<?php
+											}
+										  }
+									?>
+										<p><?=$comment->content?></p>
+										
+										<a onclick="clickCommentBtn('co<?=$comment->id?>')" class="comment-btn">Reply</a>
+										
+										<br><br>
+										<div class="leave-comment" id="co<?=$comment->id?>" style="display : none;">
+											<form class="comment-form">
+												<div class="row">
+													<div class="col-lg-12 text-center">
+														<textarea placeholder="내용" id="recomment<?=$comment->id?>"></textarea>
+														<button type="button" onclick="createRecoment(<?=$comment->id?>, 'recomment<?=$comment->id?>', <?=$data['review']->id?>);" class="site-btn" >Send</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<!--댓글 출력 끝-->
+								
+								
+								
+								<!--대댓글 출력 시작-->
+								<?php
+								  
+								  if(isset($data['recomments'])) {
+									foreach ($data['recomments'] as $recomment) {
+									  if($recomment->comment_id == $comment->id) {
+										$arr = explode(" ", $recomment->writeday);
+										$writeday_arr = explode("-", $arr[0]);
+										$year = $writeday_arr[0];
+										$month = $writeday_arr[1];
+										$date = $writeday_arr[2];
 
-									$writetime_arr = explode(":", $arr[1]);
-									$hour = $writetime_arr[0];
-									$minite = $writetime_arr[1];
-									$second = $writetime_arr[2];
-							?>
-                            <div class="single-comment-item reply-comment">
-                                <div class="sc-author">
-                                    <img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-2.jpg" alt="">
-                                </div>
-                                <div class="sc-text">
-								<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초</span>
-								<?php
-									foreach ($data['recomment_users'] as $recomment_user) {
-									  if($recomment_user->id == $recomment->user_id) {
+										$writetime_arr = explode(":", $arr[1]);
+										$hour = $writetime_arr[0];
+										$minite = $writetime_arr[1];
+										$second = $writetime_arr[2];
 								?>
-                                    <h5><?=$recomment_user->name?></h5>
-								<?php
-									  }
-									}
-								?>
-                                    <p><?=$recomment->content?></p>
-                                    
-									
-                                </div>
-                            </div>
-							<!--대댓글 출력 끝-->
-								<?php   
+								<div class="single-comment-item reply-comment">
+									<div class="sc-author">
+										<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-2.jpg" alt="">
+									</div>
+									<div class="sc-text">
+									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초</span>
+									<?php
+										foreach ($data['recomment_users'] as $recomment_user) {
+										  if($recomment_user->id == $recomment->user_id) {
+									?>
+										<h5><?=$recomment_user->name?></h5>
+									<?php
+										  }
+										}
+									?>
+										<p><?=$recomment->content?></p>
+										
+										
+									</div>
+								</div>
+								<!--대댓글 출력 끝-->
+									<?php   
+								  }
+								}     
 							  }
-							}     
+							}
 						  }
-						}
-					  }
-						
-					?>
-							 
-							</div>
+							
+						?>
+								 
+							
 						</div>
 						
 						
@@ -301,7 +306,29 @@
 				  success : function(data) {
 					
 					var str = "";
-
+						
+						
+						
+						// 댓글 개수 출력
+						
+						if (data.comments != null) {
+							if(data.recomments != null) {
+								str += '<h4>' + (data.comments.length + data.recomments.length) + ' Comments</h4>';
+							}
+							else {
+								str += '<h4>' + data.comments.length + ' Comments</h4>';
+							}
+						}
+						else {
+							str += '<h4> 0 Comments</h4>';
+						}
+							
+						
+						
+						
+						
+						
+						
 					  // 댓글 출력
 					  if (data.comments != null) {
 						for (var i = 0; i < data.comments.length; i++) {
@@ -334,7 +361,7 @@
                                     str += data.comments[i].content + '\n' +
 									
 									'<br><br>\n' + 
-                                    '<a onclick="clickCommentBtn(\'' + data.comments[i].id + '\')" class="comment-btn">Reply</a>\n' + 
+                                    '<a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')" class="comment-btn">Reply</a>\n' + 
 									'<br><br>\n' + 
 									'<div class="leave-comment" id="co' + data.comments[i].id + '" style="display : none;">\n' +
 										'<form class="comment-form">\n' +
@@ -353,11 +380,11 @@
 
 
 
-				
+							
 						  // 대댓글 출력
 						  if(data.recomments != null) {
 							for (var a = 0; a < data.recomments.length; a++) {
-							  if(data.recomments[a].user_comment_id == data.comments[i].id) {
+							  if(data.recomments[a].comment_id == data.comments[i].id) {
 								var arr = data.recomments[a].writeday.split(" ");
 								var writedate_arr = arr[0].split("-");
 								var year = writedate_arr[0];
@@ -386,7 +413,7 @@
 								  }
 								}
 								
-                                    str+= '<p>' + data.recomments[a].content + '</p>\n' + 
+                                    str+= data.recomments[a].content + '\n' + 
                                     
 									
                                 '</div>\n' + 
@@ -401,14 +428,15 @@
 						
 					
 							 
-                        str += '</div>\n';
+                        /*str += '</div>\n' + 
+						'</div>\n';*/
 
 
-
+					
 
 					// 댓글 생성
-					$('#comment_area').empty();
-					$("#comment_area").append(str);
+					$('.comment-option').empty();
+					$(".comment-option").append(str);
 					
 					// 댓글창 지우기
 					document.getElementById(text_id).value = '';
@@ -465,7 +493,27 @@
 				success : function(data) {
 				  
 				  var str = "";
-
+					
+					
+					
+					// 댓글 개수 출력
+					
+					if (data.comments != null) {
+						if(data.recomments != null) {
+							str += '<h4>' + (data.comments.length + data.recomments.length) + ' Comments</h4>';
+						}
+						else {
+							str += '<h4>' + data.comments.length + ' Comments</h4>';
+						}
+					}
+					else {
+						str += '<h4> 0 Comments</h4>';
+					}
+					
+					
+					
+					
+					
 					  // 댓글 출력
 					  if (data.comments != null) {
 						for (var i = 0; i < data.comments.length; i++) {
@@ -497,7 +545,7 @@
 								
                                     str += data.comments[i].content + '\n' + 
                                     '<br><br>\n' + 
-                                    '<a onclick="clickCommentBtn(\'' + data.comments[i].id + '\')" class="comment-btn">Reply</a>\n' + 
+                                    '<a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')" class="comment-btn">Reply</a>\n' + 
 									'<br><br>\n' + 
 									'<div class="leave-comment" id="co' + data.comments[i].id + '" style="display : none;">\n' +
 										'<form class="comment-form">\n' +
@@ -517,8 +565,11 @@
 					
 						  // 대댓글 출력
 						  if(data.recomments != null) {
+							  
 							for (var a = 0; a < data.recomments.length; a++) {
-							  if(data.recomments[a].user_comment_id == data.comments[i].id) {
+								
+							  if(data.recomments[a].comment_id == data.comments[i].id) {
+								  
 								var arr = data.recomments[a].writeday.split(" ");
 								var writedate_arr = arr[0].split("-");
 								var year = writedate_arr[0];
@@ -563,16 +614,17 @@
 						
 					
 							 
-                        str += '</div>\n';
+                        /*str += '</div>\n' + 
+						'</div>\n';*/
 
 
-
+				
 
 
 
 					// 댓글 생성
-					$('#comment_area').empty();
-					$("#comment_area").append(str);
+					$('.comment-option').empty();
+					$(".comment-option").append(str);
 					
 				 
 				  
