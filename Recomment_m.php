@@ -26,12 +26,49 @@
 		function add($content, $comment_id) { 
 			$this->db->set('writeday', 'now()', false);
 			$arr = array(
+				'content'=>$content,
 				'comment_id'=>$comment_id,
-				'user_id'=>1, 
-				'content'=>$content
+				'user_id'=>1
 			);
+			
+	
 			$this->db->insert('recomment', $arr);
-		  
 		}
+		
+		
+		function edit($recomment_id, $content) {
+			$sql = "update recomment set content='".$content."'where id=".$recomment_id;
+			
+			$this->db->query($sql);
+		}
+		
+		function getRecommentById($id) {
+			$sql = "select * from recomment where id=".$id;
+			
+			return $this->db->query($sql)->row();
+		}
+		
+		
+		
+		function deleteRecomment($id) {
+			$sql = "delete from recomment where id=".$id;
+			
+			$this->db->query($sql);
+		}
+		
+		function getRecommentCount($comments) {
+			$sql = "select * from recomment where ";
+			$count = 0;
+			foreach ($comments as $comment) {
+				$sql .= " comment_id=".$comment->id;
+				if (count($comments) - 1 != $count) {
+					$sql .= " or ";
+				}
+				$count++;
+			}
+			
+			return $this->db->query($sql)->num_rows();
+		}
+		
 	}
 ?>	

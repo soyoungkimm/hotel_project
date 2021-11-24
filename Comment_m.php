@@ -22,6 +22,31 @@
             $this->db->insert('comment', $arr);
 		}
 		
+		function edit($comment_id, $content) {
+			$sql = "update comment set content='".$content."'where id=".$comment_id;
+			
+			$this->db->query($sql);
+			
+		}
+		
+		function getCommentById($id) {
+			$sql = "select * from comment where id=".$id;
+			
+			return $this->db->query($sql)->row();
+		}
+		
+		
+		function deleteComment($id) {
+			$sql = "delete from comment where id=".$id;
+			
+			return $this->db->query($sql);
+		}
+		
+		function getCommentCount($id) {
+			$sql = "select * from comment where review_id=".$id;
+			
+			return $this->db->query($sql)->num_rows();
+		}
 	}
 	
 ?>

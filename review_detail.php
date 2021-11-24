@@ -6,12 +6,12 @@
 </style>
 
     <!-- Blog Details Hero Section Begin -->
-    <section class="blog-details-hero set-bg" data-setbg="/~team2/my/lib/sona-master/img/blog/blog-details/blog-details-hero.jpg">
+    <section class="blog-details-hero set-bg" data-setbg="/~team2/my/img/review/hotel_image.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
                     <div class="bd-hero-text">
-                        <span id="pic_area">Travel Trip & Camping</span>
+                        <span id="pic_area"><?=$data['category']->name?></span>
                         <h2><?=$data['review']->title?></h2>
 
 						<?php
@@ -24,6 +24,9 @@
                             <li class="b-time"><i class="icon_clock_alt"></i> <?=$year?>. <?=$month?>. <?=$date?></li>
                             <li><i class="icon_profile"></i><?=$data['user']->name?></li>
                         </ul>
+						<br>
+						<span style="border-radius: 15px; cursor:pointer; color : #fff"><a onclick="location.href='/~team2/review/edit/<?=$data['review']->id?>'">수정</a></span>
+						<span style="border-radius: 15px; cursor:pointer;"><a onclick="pressDeleteReview();">삭제</a></span>
                     </div>
                 </div>
             </div>
@@ -44,33 +47,38 @@
                         
                         <div class="tag-share">
                             <div class="tags">
-                                <a href="#">Travel Trip</a>
-                                <a href="#">Camping</a>
-                                <a href="#">Event</a>
+                                <a><?=$data['category']->name?></a>
                             </div>
-                            <div class="social-share">
+                            <!--<div class="social-share">
                                 <span>Share:</span>
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-twitter"></i></a>
                                 <a href="#"><i class="fa fa-tripadvisor"></i></a>
                                 <a href="#"><i class="fa fa-instagram"></i></a>
                                 <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="comment-option">
-                            <h4><?php
-							  if (isset($data['comments'])) {
-								if(isset($data['recomments'])) {
-								  echo count($data['comments']) + count($data['recomments']);
-								}
-								else {
-								  echo count($data['comments']);
-								}
-							  }
-							  else {
-								echo 0;
-							  }
-							?> Comments</h4>
+                            <div id="comment_num">
+								<h4>
+								<?php
+								  if (isset($data['comments'])) {
+									if(isset($data['recomments'])) {
+									  echo count($data['comments']) + count($data['recomments']);
+									}
+									else {
+									  echo count($data['comments']);
+									}
+								  }
+								  else {
+									echo 0;
+								  }
+								  
+								?> 
+								Comments
+								</h4>
+							</div>
+							
 							
 							
 							
@@ -90,12 +98,13 @@
 									  $minite = $writetime_arr[1];
 									  $second = $writetime_arr[2];
 								?>
-								<div class="single-comment-item first-comment">
+								<div class="single-comment-item first-comment" id="coco<?=$comment->id?>">
 									<div class="sc-author">
 										<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-1.jpg" alt="">
 									</div>
-									<div class="sc-text">
-									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초</span>
+									<div class="sc-text" id="co_area<?=$comment->id?>">
+									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment('co_area<?=$comment->id?>', <?=$comment->id?>);">수정</a>&nbsp;<a onclick="pressDelete('co', <?=$comment->id?>,'coco<?=$comment->id?>');">삭제</a></span>
 									<?php
 										  foreach ($data['comment_users'] as $comment_user) {
 											if($comment_user->id == $comment->user_id) {
@@ -107,7 +116,7 @@
 									?>
 										<p><?=$comment->content?></p>
 										
-										<a onclick="clickCommentBtn('co<?=$comment->id?>')" class="comment-btn">Reply</a>
+										<a onclick="clickCommentBtn('co<?=$comment->id?>')" class="comment-btn" style="cursor:pointer;">Reply</a>
 										
 										<br><br>
 										<div class="leave-comment" id="co<?=$comment->id?>" style="display : none;">
@@ -115,7 +124,7 @@
 												<div class="row">
 													<div class="col-lg-12 text-center">
 														<textarea placeholder="내용" id="recomment<?=$comment->id?>"></textarea>
-														<button type="button" onclick="createRecoment(<?=$comment->id?>, 'recomment<?=$comment->id?>', <?=$data['review']->id?>);" class="site-btn" >Send</button>
+														<button type="button" onclick="createRecoment(<?=$comment->id?>, 'recomment<?=$comment->id?>', <?=$data['review']->id?>);" class="site-btn">Send</button>
 													</div>
 												</div>
 											</form>
@@ -143,12 +152,13 @@
 										$minite = $writetime_arr[1];
 										$second = $writetime_arr[2];
 								?>
-								<div class="single-comment-item reply-comment">
+								<div class="single-comment-item reply-comment" id="rere<?=$recomment->id?>">
 									<div class="sc-author">
 										<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-2.jpg" alt="">
 									</div>
-									<div class="sc-text">
-									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초</span>
+									<div class="sc-text" id="reco_area<?=$recomment->id?>">
+									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment('reco_area<?=$recomment->id?>', <?=$recomment->id?>);">수정</a>&nbsp;<a onclick="pressDelete('re', <?=$recomment->id?>,'rere<?=$recomment->id?>');">삭제</a></span>
 									<?php
 										foreach ($data['recomment_users'] as $recomment_user) {
 										  if($recomment_user->id == $recomment->user_id) {
@@ -249,14 +259,181 @@
 	
 	<script>
 		
-		  /*function pressDelete() {
+		  function pressDeleteReview() {
 			var answer = confirm('정말로 삭제하시겠습니까?');
 			if (answer) {
-			  window.location.href = "/~sale24/prj/blog/delete/<?=$data['blog']->id?>";
+			  window.location.href = "/~team2/review/delete/<?=$data['review']->id?>";
 			}
-		  }*/
+		  }
+		  
+		  
+		  function editRecomment(reco_area, recomment_id) {
+				
+				var str = '';
+				
+				str += '<div class="leave-comment">\n' + 
+							'<form class="comment-form">\n' +
+								'<div class="row">\n' +
+									'<div class="col-lg-12 text-center">\n' +
+										'<textarea placeholder="내용" id="hhh"></textarea>\n' +
+										'<button type="button" onclick="ajax_edit_recomment(\'' + reco_area + '\', ' + recomment_id + ');" class="site-btn">Send</button>\n' +
+									'</div>\n' +
+								'</div>\n' +
+							'</form>\n' +
+						'</div>\n';
+				
+				
+				$("#" + reco_area).empty();
+				$("#" + reco_area).append(str);
+			}
+		  
+		  
+			
+			function editComment(co_area, comment_id) {
+				
+				var str = '';
+				
+				str += '<div class="leave-comment">\n' + 
+							'<form class="comment-form">\n' +
+								'<div class="row">\n' +
+									'<div class="col-lg-12 text-center">\n' +
+										'<textarea placeholder="내용" id="hhh"></textarea>\n' +
+										'<button type="button" onclick="ajax_edit_comment(\'' + co_area + '\', ' + comment_id + ');" class="site-btn">Send</button>\n' +
+									'</div>\n' +
+								'</div>\n' +
+							'</form>\n' +
+						'</div>\n';
+						
+				
+				
+				$("#" + co_area).empty();
+				$("#" + co_area).append(str);
+			}
+			
+			
+			
+			
+			
+			function ajax_edit_recomment(reco_area, recomment_id) {
+				
+				var content = document.getElementById('hhh').value;
+				
+				$.ajax({
+				  url: "/~team2/review/ajax_edit_recomment",
+				  type: "POST",
+				  data: {
+					recomment_id : recomment_id, 
+					content : content
+				  },
+				  datatype: "json",
+				  success : function(data) {
+					
+					var str = "";
+					
+					var arr = data.recomment.writeday.split(" ");
+					var writedate_arr = arr[0].split("-");
+					var year = writedate_arr[0];
+					var month = writedate_arr[1];
+					var date = writedate_arr[2];
 
+					var writetime_arr = arr[1].split(":");
+					var hour = writetime_arr[0];
+					var minite = writetime_arr[1];
+					var second = writetime_arr[2];
+					
+					
+					str += '<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초' + 
+									'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomment.id + '\', ' + data.recomment.id + ');">수정</a>&nbsp;<a onclick="pressDelete();">삭제</a></span>\n' + 
+										'<h5>' + data.recomment_user.name + '</h5>\n' + 
+										'<p>' + data.recomment.content + '</p>\n';
+					
+						
+					// 댓글 생성
+					$("#" + reco_area).empty();
+					$("#" + reco_area).append(str);
+					
+				  },
+				  error: function(request,status,error){ // 실패
+					alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+				  }
+				});
+			}
+			
+			
+			
+			
+			
+			function ajax_edit_comment(co_area, comment_id) {
+				
+				var content = document.getElementById('hhh').value;
+				
+				$.ajax({
+				  url: "/~team2/review/ajax_edit_comment",
+				  type: "POST",
+				  data: {
+					comment_id : comment_id, 
+					content : content
+				  },
+				  datatype: "json",
+				  success : function(data) {
+					
+					var str = "";
+					
+					var arr = data.comment.writeday.split(" ");
+					var writedate_arr = arr[0].split("-");
+					var year = writedate_arr[0];
+					var month = writedate_arr[1];
+					var date = writedate_arr[2];
 
+					var writetime_arr = arr[1].split(":");
+					var hour = writetime_arr[0];
+					var minite = writetime_arr[1];
+					var second = writetime_arr[2];
+					
+					
+					str += '<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초' + 
+									'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comment.id + '\', ' + data.comment.id + ');">수정</a>&nbsp;<a onclick="pressDelete();">삭제</a></span>\n' + 
+										'<h5>' + data.comment_user.name + '</h5>\n' + 
+										'<p>' + data.comment.content + '</p>\n' + 
+										'<a onclick="clickCommentBtn(\'co' + data.comment.id + '\')" class="comment-btn" style="cursor:pointer;">Reply</a>\n' + 
+										'<br><br>\n' + 
+										'<div class="leave-comment" id="co' + data.comment.id + '" style="display : none;">\n' +
+											'<form class="comment-form">\n' +
+												'<div class="row">\n' +
+													'<div class="col-lg-12 text-center">\n' +
+														'<textarea placeholder="내용" id="recomment' + data.comment.id + '"></textarea>\n' +
+														'<button type="button" onclick="createRecoment(' + data.comment.id + ', \'recomment' + data.comment.id + '\', ' + <?=$data['review']->id?> + ');" class="site-btn">Send</button>\n' +
+													'</div>\n' +
+												'</div>\n' +
+											'</form>\n' +
+										'</div>\n';
+					
+						
+					// 댓글 생성
+					$("#" + co_area).empty();
+					$("#" + co_area).append(str);
+					
+				  },
+				  error: function(request,status,error){ // 실패
+					alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+				  }
+				});
+				
+				
+				
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
 
 		  function clickCommentBtn(comment_box_id) {
 			
@@ -269,6 +446,104 @@
 			}
 			
 		  }
+		  
+		  
+		  
+		  
+		  
+		  function pressDelete(type, comment_id ,comment) {
+			  
+			var answer = confirm('정말로 삭제하시겠습니까?');
+			
+			if (answer) {
+				
+				if (type == "re") {
+					
+					// recomment 삭제
+					$.ajax({
+					  url: "/~team2/review/ajax_delete_recomment",
+					  type: "POST",
+					  datatype: "json",
+					  data: {
+						recomment_id : comment_id,
+						review_id : <?=$data['review']->id?>
+					  },
+					  success : function(data) {
+						
+						document.getElementById(comment).remove();
+						
+						if ((data.comments_num + data.recomments_num) != 0) {
+							var str = '<h4>' + 
+								(data.comments_num + data.recomments_num) + 
+								' Comments</h4>';
+						}
+						else {
+							var str = '<h4>0 Comments</h4>';
+						}
+						
+						// comment 개수 바꾸기
+						$('#comment_num').empty();
+						$("#comment_num").append(str);
+						
+					  },
+					  error: function(request,status,error){ // 실패
+						alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+						console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+					  }
+					});
+					
+				}
+				else {
+					
+					// comment 삭제
+					$.ajax({
+					  url: "/~team2/review/ajax_delete_comment",
+					  type: "POST",
+					  datatype: "json",
+					  data: {
+						comment_id : comment_id,
+						review_id : <?=$data['review']->id?>
+					  },
+					  success : function(data) {
+						
+						document.getElementById(comment).remove();
+						
+						if ((data.comments_num + data.recomments_num) != 0) {
+							var str = '<h4>' + 
+								(data.comments_num + data.recomments_num) + 
+								' Comments</h4>';
+						}
+						else {
+							var str = '<h4>0 Comments</h4>';
+						}
+						
+						// comment 개수 바꾸기
+						$('#comment_num').empty();
+						$("#comment_num").append(str);
+						
+					  },
+					  error: function(request,status,error){ // 실패
+						alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+						console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+					  }
+					});	
+					
+				}
+			}
+			
+			
+			
+			
+				
+				
+				
+			
+				
+			
+		  }
+		  
+		  
+		  
 
 
 
@@ -313,14 +588,14 @@
 						
 						if (data.comments != null) {
 							if(data.recomments != null) {
-								str += '<h4>' + (data.comments.length + data.recomments.length) + ' Comments</h4>';
+								str += '<div id="comment_num"><h4>' + (data.comments.length + data.recomments.length) + ' Comments</h4></div>';
 							}
 							else {
-								str += '<h4>' + data.comments.length + ' Comments</h4>';
+								str += '<div id="comment_num"><h4>' + data.comments.length + ' Comments</h4></div>';
 							}
 						}
 						else {
-							str += '<h4> 0 Comments</h4>';
+							str += '<div id="comment_num"><h4> 0 Comments</h4></div>';
 						}
 							
 						
@@ -346,12 +621,13 @@
 
 
 
-						str +=	'<div class="single-comment-item first-comment">\n' + 
+						str +=	'<div class="single-comment-item first-comment" id="coco' + data.comments[i].id + '">\n' + 
                                 '<div class="sc-author">\n' + 
                                     '<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-1.jpg" alt="">\n' + 
                                 '</div>\n' + 
-                                '<div class="sc-text">\n' + 
-								'<span>' +  year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초</span>\n';
+                                '<div class="sc-text" id="co_area' + data.comments[i].id + '">\n' + 
+								'<span>' +  year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
+								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ');">수정</a>&nbsp;<a onclick="pressDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a></span>\n';
 								for (var j = 0; j < data.comment_users.length; j++) {
 									if(data.comment_users[j].id == data.comments[i].user_id) {
 										str += '<h5>' + data.comment_users[j].name + '</h5>\n';
@@ -361,7 +637,7 @@
                                     str += data.comments[i].content + '\n' +
 									
 									'<br><br>\n' + 
-                                    '<a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')" class="comment-btn">Reply</a>\n' + 
+                                    '<a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')" class="comment-btn" style="cursor:pointer;">Reply</a>\n' + 
 									'<br><br>\n' + 
 									'<div class="leave-comment" id="co' + data.comments[i].id + '" style="display : none;">\n' +
 										'<form class="comment-form">\n' +
@@ -398,12 +674,13 @@
 
 
 
-							str +=	'<div class="single-comment-item reply-comment">\n' + 
+							str +=	'<div class="single-comment-item reply-comment" id="rere' + data.recomments[a].id + '">\n' + 
                                 '<div class="sc-author">\n' +
                                     '<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-2.jpg" alt="">\n' +
                                 '</div>\n' +
-                                '<div class="sc-text">\n' +
-								'<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초</span>\n';
+                                '<div class="sc-text"  id="reco_area' + data.recomments[a].id + '">\n' +
+								'<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
+								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ');">수정</a>&nbsp;<a onclick="pressDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a></span>\n';
 								for(var z = 0; z < data.recomment_users.length; z++) 
 								{
 								  if(data.recomment_users[z].id == data.recomments[a].user_id) 
@@ -500,14 +777,14 @@
 					
 					if (data.comments != null) {
 						if(data.recomments != null) {
-							str += '<h4>' + (data.comments.length + data.recomments.length) + ' Comments</h4>';
+							str += '<div id="comment_num"><h4>' + (data.comments.length + data.recomments.length) + ' Comments</h4></div>';
 						}
 						else {
-							str += '<h4>' + data.comments.length + ' Comments</h4>';
+							str += '<div id="comment_num"><h4>' + data.comments.length + ' Comments</h4></div>';
 						}
 					}
 					else {
-						str += '<h4> 0 Comments</h4>';
+						str += '<div id="comment_num"><h4> 0 Comments</h4></div>';
 					}
 					
 					
@@ -531,12 +808,13 @@
 
 
 
-					str +=	'<div class="single-comment-item first-comment">\n' + 
+					str +=	'<div class="single-comment-item first-comment" id="coco' + data.comments[i].id + '">\n' + 
                                 '<div class="sc-author">\n' + 
                                     '<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-1.jpg" alt="">\n' + 
                                 '</div>\n' + 
-                                '<div class="sc-text">\n' + 
-									'<span>' +  year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초</span>\n';
+                                '<div class="sc-text"  id="co_area' + data.comments[i].id + '">\n' + 
+									'<span>' +  year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
+									'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ');">수정</a>&nbsp;<a onclick="pressDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a></span>\n';
 								for (var j = 0; j < data.comment_users.length; j++) {
 									if(data.comment_users[j].id == data.comments[i].user_id) {
 										str += '<h5>' + data.comment_users[j].name + '</h5>\n';
@@ -545,7 +823,7 @@
 								
                                     str += data.comments[i].content + '\n' + 
                                     '<br><br>\n' + 
-                                    '<a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')" class="comment-btn">Reply</a>\n' + 
+                                    '<a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')" class="comment-btn" style="cursor:pointer;">Reply</a>\n' + 
 									'<br><br>\n' + 
 									'<div class="leave-comment" id="co' + data.comments[i].id + '" style="display : none;">\n' +
 										'<form class="comment-form">\n' +
@@ -584,12 +862,13 @@
 
 
 
-					str +=	'<div class="single-comment-item reply-comment">\n' + 
+					str +=	'<div class="single-comment-item reply-comment" id="rere' + data.recomments[a].id + '">\n' + 
                                 '<div class="sc-author">\n' +
                                     '<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-2.jpg" alt="">\n' +
                                 '</div>\n' +
-                                '<div class="sc-text">\n' +
-								'<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초</span>\n';
+                                '<div class="sc-text"  id="reco_area' + data.recomments[a].id + '">\n' +
+								'<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
+								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ');">수정</a>&nbsp;<a onclick="pressDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a></span>\n';
 								for(var z = 0; z < data.recomment_users.length; z++) 
 								{
 								  if(data.recomment_users[z].id == data.recomments[a].user_id) 
