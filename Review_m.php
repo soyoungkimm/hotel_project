@@ -5,8 +5,9 @@
             parent::__construct();
         }
 		
-		function getReview() {
-			$sql = "select * from review";
+		function getReview($number) {
+			$sql = "select * from review order by writeday desc limit 0, ".$number;
+			
 			return $this->db->query($sql)->result();
 		}
 

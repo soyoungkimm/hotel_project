@@ -104,7 +104,7 @@
 									</div>
 									<div class="sc-text" id="co_area<?=$comment->id?>">
 									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment('co_area<?=$comment->id?>', <?=$comment->id?>);">수정</a>&nbsp;<a onclick="pressDelete('co', <?=$comment->id?>,'coco<?=$comment->id?>');">삭제</a></span>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment('co_area<?=$comment->id?>', <?=$comment->id?>, '<?=$comment->content?>');">수정</a>&nbsp;<a onclick="pressDelete('co', <?=$comment->id?>,'coco<?=$comment->id?>');">삭제</a></span>
 									<?php
 										  foreach ($data['comment_users'] as $comment_user) {
 											if($comment_user->id == $comment->user_id) {
@@ -158,7 +158,7 @@
 									</div>
 									<div class="sc-text" id="reco_area<?=$recomment->id?>">
 									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment('reco_area<?=$recomment->id?>', <?=$recomment->id?>);">수정</a>&nbsp;<a onclick="pressDelete('re', <?=$recomment->id?>,'rere<?=$recomment->id?>');">삭제</a></span>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment('reco_area<?=$recomment->id?>', <?=$recomment->id?>, '<?=$recomment->content?>');">수정</a>&nbsp;<a onclick="pressDelete('re', <?=$recomment->id?>,'rere<?=$recomment->id?>');">삭제</a></span>
 									<?php
 										foreach ($data['recomment_users'] as $recomment_user) {
 										  if($recomment_user->id == $recomment->user_id) {
@@ -267,7 +267,7 @@
 		  }
 		  
 		  
-		  function editRecomment(reco_area, recomment_id) {
+		  function editRecomment(reco_area, recomment_id, content) {
 				
 				var str = '';
 				
@@ -275,7 +275,7 @@
 							'<form class="comment-form">\n' +
 								'<div class="row">\n' +
 									'<div class="col-lg-12 text-center">\n' +
-										'<textarea placeholder="내용" id="hhh"></textarea>\n' +
+										'<textarea placeholder="내용" id="hhh">' + content + '</textarea>\n' +
 										'<button type="button" onclick="ajax_edit_recomment(\'' + reco_area + '\', ' + recomment_id + ');" class="site-btn">Send</button>\n' +
 									'</div>\n' +
 								'</div>\n' +
@@ -289,7 +289,7 @@
 		  
 		  
 			
-			function editComment(co_area, comment_id) {
+			function editComment(co_area, comment_id, content) {
 				
 				var str = '';
 				
@@ -297,7 +297,7 @@
 							'<form class="comment-form">\n' +
 								'<div class="row">\n' +
 									'<div class="col-lg-12 text-center">\n' +
-										'<textarea placeholder="내용" id="hhh"></textarea>\n' +
+										'<textarea placeholder="내용" id="hhh">'+ content +'</textarea>\n' +
 										'<button type="button" onclick="ajax_edit_comment(\'' + co_area + '\', ' + comment_id + ');" class="site-btn">Send</button>\n' +
 									'</div>\n' +
 								'</div>\n' +
@@ -343,7 +343,7 @@
 					
 					
 					str += '<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초' + 
-									'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomment.id + '\', ' + data.recomment.id + ');">수정</a>&nbsp;<a onclick="pressDelete();">삭제</a></span>\n' + 
+									'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomment.id + '\', ' + data.recomment.id + ', \'' + data.recomment.content + '\');">수정</a>&nbsp;<a onclick="pressDelete();">삭제</a></span>\n' + 
 										'<h5>' + data.recomment_user.name + '</h5>\n' + 
 										'<p>' + data.recomment.content + '</p>\n';
 					
@@ -393,7 +393,7 @@
 					
 					
 					str += '<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초' + 
-									'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comment.id + '\', ' + data.comment.id + ');">수정</a>&nbsp;<a onclick="pressDelete();">삭제</a></span>\n' + 
+									'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comment.id + '\', ' + data.comment.id + ', \'' + data.comment.content + '\');">수정</a>&nbsp;<a onclick="pressDelete();">삭제</a></span>\n' + 
 										'<h5>' + data.comment_user.name + '</h5>\n' + 
 										'<p>' + data.comment.content + '</p>\n' + 
 										'<a onclick="clickCommentBtn(\'co' + data.comment.id + '\')" class="comment-btn" style="cursor:pointer;">Reply</a>\n' + 
@@ -627,7 +627,7 @@
                                 '</div>\n' + 
                                 '<div class="sc-text" id="co_area' + data.comments[i].id + '">\n' + 
 								'<span>' +  year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
-								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ');">수정</a>&nbsp;<a onclick="pressDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a></span>\n';
+								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ', \'' + data.comments[i].content + '\');">수정</a>&nbsp;<a onclick="pressDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a></span>\n';
 								for (var j = 0; j < data.comment_users.length; j++) {
 									if(data.comment_users[j].id == data.comments[i].user_id) {
 										str += '<h5>' + data.comment_users[j].name + '</h5>\n';
@@ -680,7 +680,7 @@
                                 '</div>\n' +
                                 '<div class="sc-text"  id="reco_area' + data.recomments[a].id + '">\n' +
 								'<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
-								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ');">수정</a>&nbsp;<a onclick="pressDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a></span>\n';
+								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ', \'' + data.recomments[a].content + '\');">수정</a>&nbsp;<a onclick="pressDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a></span>\n';
 								for(var z = 0; z < data.recomment_users.length; z++) 
 								{
 								  if(data.recomment_users[z].id == data.recomments[a].user_id) 
@@ -814,7 +814,7 @@
                                 '</div>\n' + 
                                 '<div class="sc-text"  id="co_area' + data.comments[i].id + '">\n' + 
 									'<span>' +  year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
-									'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ');">수정</a>&nbsp;<a onclick="pressDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a></span>\n';
+									'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ', \'' + data.comments[i].content + '\');">수정</a>&nbsp;<a onclick="pressDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a></span>\n';
 								for (var j = 0; j < data.comment_users.length; j++) {
 									if(data.comment_users[j].id == data.comments[i].user_id) {
 										str += '<h5>' + data.comment_users[j].name + '</h5>\n';
@@ -868,7 +868,7 @@
                                 '</div>\n' +
                                 '<div class="sc-text"  id="reco_area' + data.recomments[a].id + '">\n' +
 								'<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
-								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ');">수정</a>&nbsp;<a onclick="pressDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a></span>\n';
+								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ', \'' + data.recomments[a].content + '\');">수정</a>&nbsp;<a onclick="pressDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a></span>\n';
 								for(var z = 0; z < data.recomment_users.length; z++) 
 								{
 								  if(data.recomment_users[z].id == data.recomments[a].user_id) 

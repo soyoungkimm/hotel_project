@@ -11,9 +11,11 @@
 			$this->load->model('Review_m');
 			$this->load->model('Review_category_m');
 			
+			// 페이지에서 보일 후기 개수
+			$number = 9; 
 			
 			
-			$data['reviews'] = $this->Review_m->getReview();
+			$data['reviews'] = $this->Review_m->getReview($number);
 			$data['categorys'] = $this->Review_category_m->getCategory();
 			
 			
@@ -498,6 +500,32 @@
 				$comments = $this->Comment_m->getCommentByReviewId($review_id);
                 $data['recomments_num'] = $this->Recomment_m->getRecommentCount($comments);
             }
+			
+			
+			$result = json_encode($data, JSON_UNESCAPED_UNICODE);
+            echo $result;
+		}
+		
+		
+		
+		public function ajax_review() {
+			header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
+			
+			
+			$this->load->model('Review_m');
+			$this->load->model('Review_category_m');
+			
+			// 페이지에서 보일 후기 개수
+			$number = $_POST['number'];
+			
+			
+			$data['reviews'] = $this->Review_m->getReview($number);
+			$data['categorys'] = $this->Review_category_m->getCategory();
+			
+			
 			
 			
 			$result = json_encode($data, JSON_UNESCAPED_UNICODE);
