@@ -22,6 +22,13 @@
 		}
 		
 		
+		function getRecommentByCommentId($comment_id) {
+			$sql = "select * from recomment where comment_id=".$comment_id;
+			
+			return $this->db->query($sql)->result();
+		}
+		
+		
 		
 		function add($content, $comment_id) { 
 			$this->db->set('writeday', 'now()', false);
@@ -36,11 +43,35 @@
 		}
 		
 		
+		
+		function admin_add($data) {
+			
+			$arr = array(
+				'comment_id'=>$data['comment_id'],
+				'user_id'=>$data['user_id'],
+				'content'=>$data['content'],
+				'writeday'=>$data['writeday']
+			);
+			
+			$this->db->insert('recomment', $arr);
+			return $this->db->insert_id();
+		}
+		
+		
 		function edit($recomment_id, $content) {
 			$sql = "update recomment set content='".$content."'where id=".$recomment_id;
 			
 			$this->db->query($sql);
 		}
+		
+		
+		function admin_edit($data) {
+			$sql = "update recomment set comment_id=".$data['comment_id'].", user_id=".$data['user_id'].
+			", content='".$data['content']."', writeday='".$data['writeday']."' where id=".$data['recomment_id'];
+			
+			$this->db->query($sql);
+		}
+		
 		
 		function getRecommentById($id) {
 			$sql = "select * from recomment where id=".$id;

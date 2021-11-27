@@ -3,6 +3,49 @@
 .blog-details-text .comment-option .single-comment-item.first-comment .sc-text:before {
 	height: 100px;
 }
+
+.blog-details-text .comment-option .single-comment-item .sc-text a:hover {
+	background: #38b6ff;
+    border-color: #38b6ff;
+}
+
+
+.blog-details-text .comment-option .single-comment-item .sc-text span {
+	color : #38b6ff;
+}
+
+.blog-details-text .tag-share .tags a:hover {
+	background: #38b6ff;
+}
+
+.bd-hero-text ul li {
+	color : #fff;
+}
+
+
+.star {
+		position: relative;
+		font-size: 2rem;
+		color: #ddd;
+	  }
+	  
+	  .star input {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		opacity: 0;
+		cursor: pointer;
+	  }
+	  
+	  .star span {
+		width: 0;
+		position: absolute; 
+		left: 0;
+		color: #ffe000;
+		overflow: hidden;
+		pointer-events: none;
+	  }
 </style>
 
     <!-- Blog Details Hero Section Begin -->
@@ -26,7 +69,7 @@
                         </ul>
 						<br>
 						<span style="border-radius: 15px; cursor:pointer; color : #fff"><a onclick="location.href='/~team2/review/edit/<?=$data['review']->id?>'">수정</a></span>
-						<span style="border-radius: 15px; cursor:pointer;"><a onclick="pressDeleteReview();">삭제</a></span>
+						&nbsp;&nbsp;&nbsp;<span style="border-radius: 15px; cursor:pointer;"><a onclick="pressDeleteReview();">삭제</a></span>
                     </div>
                 </div>
             </div>
@@ -40,6 +83,13 @@
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
                     <div class="blog-details-text">
+						<span class="star">
+							★★★★★
+							<span style=" width : <?=$data['review']->star * 10?>%">
+								★★★★★
+							</span>
+						</span>
+						<br><br><br>
                         <div class="bd-title">
                             <?=$data['review']->content?>
                         </div>
@@ -99,9 +149,7 @@
 									  $second = $writetime_arr[2];
 								?>
 								<div class="single-comment-item first-comment" id="coco<?=$comment->id?>">
-									<div class="sc-author">
-										<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-1.jpg" alt="">
-									</div>
+									
 									<div class="sc-text" id="co_area<?=$comment->id?>">
 									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment('co_area<?=$comment->id?>', <?=$comment->id?>, '<?=$comment->content?>');">수정</a>&nbsp;<a onclick="pressDelete('co', <?=$comment->id?>,'coco<?=$comment->id?>');">삭제</a></span>
@@ -153,9 +201,7 @@
 										$second = $writetime_arr[2];
 								?>
 								<div class="single-comment-item reply-comment" id="rere<?=$recomment->id?>">
-									<div class="sc-author">
-										<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-2.jpg" alt="">
-									</div>
+									
 									<div class="sc-text" id="reco_area<?=$recomment->id?>">
 									<span> <?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment('reco_area<?=$recomment->id?>', <?=$recomment->id?>, '<?=$recomment->content?>');">수정</a>&nbsp;<a onclick="pressDelete('re', <?=$recomment->id?>,'rere<?=$recomment->id?>');">삭제</a></span>
@@ -530,14 +576,6 @@
 					
 				}
 			}
-			
-			
-			
-			
-				
-				
-				
-			
 				
 			
 		  }
@@ -622,9 +660,7 @@
 
 
 						str +=	'<div class="single-comment-item first-comment" id="coco' + data.comments[i].id + '">\n' + 
-                                '<div class="sc-author">\n' + 
-                                    '<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-1.jpg" alt="">\n' + 
-                                '</div>\n' + 
+                                
                                 '<div class="sc-text" id="co_area' + data.comments[i].id + '">\n' + 
 								'<span>' +  year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
 								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ', \'' + data.comments[i].content + '\');">수정</a>&nbsp;<a onclick="pressDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a></span>\n';
@@ -675,9 +711,7 @@
 
 
 							str +=	'<div class="single-comment-item reply-comment" id="rere' + data.recomments[a].id + '">\n' + 
-                                '<div class="sc-author">\n' +
-                                    '<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-2.jpg" alt="">\n' +
-                                '</div>\n' +
+                                
                                 '<div class="sc-text"  id="reco_area' + data.recomments[a].id + '">\n' +
 								'<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
 								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ', \'' + data.recomments[a].content + '\');">수정</a>&nbsp;<a onclick="pressDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a></span>\n';
@@ -809,9 +843,7 @@
 
 
 					str +=	'<div class="single-comment-item first-comment" id="coco' + data.comments[i].id + '">\n' + 
-                                '<div class="sc-author">\n' + 
-                                    '<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-1.jpg" alt="">\n' + 
-                                '</div>\n' + 
+                                
                                 '<div class="sc-text"  id="co_area' + data.comments[i].id + '">\n' + 
 									'<span>' +  year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
 									'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ', \'' + data.comments[i].content + '\');">수정</a>&nbsp;<a onclick="pressDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a></span>\n';
@@ -863,9 +895,7 @@
 
 
 					str +=	'<div class="single-comment-item reply-comment" id="rere' + data.recomments[a].id + '">\n' + 
-                                '<div class="sc-author">\n' +
-                                    '<img src="/~team2/my/lib/sona-master/img/blog/blog-details/avatar/avatar-2.jpg" alt="">\n' +
-                                '</div>\n' +
+                                
                                 '<div class="sc-text"  id="reco_area' + data.recomments[a].id + '">\n' +
 								'<span> ' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + 
 								'초&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ', \'' + data.recomments[a].content + '\');">수정</a>&nbsp;<a onclick="pressDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a></span>\n';

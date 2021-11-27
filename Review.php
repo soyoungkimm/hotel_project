@@ -201,8 +201,11 @@
                             'title'=>$this->input->post('title'),
                             'content'=>$this->input->post('content'),
                             'image'=>$upload_file_name, 
-                            'category_id'=>$this->input->post('category_id')
+                            'category_id'=>$this->input->post('category_id'),
+							'star' => $this->input->post('star')
                         );
+						
+						
                         $review_id = $this->Review_m->add($review); // 방금 작성한 후기 아이디 리턴
 
                         // 사용자가 작성한 후기 페이지로 옮기기
@@ -222,8 +225,10 @@
                             'title'=>$this->input->post('title'),
                             'content'=>$this->input->post('content'),
                             'image'=>null, 
-                            'category_id'=>$this->input->post('category_id')
+                            'category_id'=>$this->input->post('category_id'),
+							'star' => $this->input->post('star')
                     );
+					
 					$review_id = $this->Review_m->add($review); // 방금 작성한 후기 아이디 리턴
 
                     
@@ -307,7 +312,8 @@
                             'content'=>$this->input->post('content'),
                             'image'=>$upload_file_name, 
                             'category_id'=>$this->input->post('category_id'),
-							'review_id'=>$id
+							'review_id'=>$id,
+							'star' => $this->input->post('star')
                         );
                         $this->Review_m->edit($review); // 방금 작성한 후기 아이디 리턴
 
@@ -328,7 +334,8 @@
                             'content'=>$this->input->post('content'),
                             'image'=>null, 
                             'category_id'=>$this->input->post('category_id'),
-							'review_id'=>$id
+							'review_id'=>$id,
+							'star' => $this->input->post('star')
                     );
 					$this->Review_m->edit($review); 
 

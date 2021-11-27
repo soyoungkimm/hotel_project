@@ -1,9 +1,37 @@
 <style>
 	#review_btn {
-		
-	  background-color : #dfa974;
+	  background-color : #38b6ff;
 	  border : none;
 	}
+	
+	.blog-item .bi-text h4 {
+		font-family: "Cabin", sans-serif; 
+	}
+	
+	
+	.star {
+		position: relative;
+		font-size: 1.5rem;
+		color: #ddd;
+	  }
+	  
+	  .star input {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		opacity: 0;
+		cursor: pointer;
+	  }
+	  
+	  .star span {
+		width: 0;
+		position: absolute; 
+		left: 0;
+		color: #ffe000;
+		overflow: hidden;
+		pointer-events: none;
+	  }
 </style>
     <!-- Breadcrumb Section Begin -->
     <div class="breadcrumb-section" id="pic_area">
@@ -11,10 +39,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-text">
-                        <h2>후기</h2>
+                        <h2>Review</h2>
                         <div class="bt-option">
                             <a href="/~team2/hotel">Home</a>
-                            <span>후기</span>
+                            <span>Review</span>
                         </div>
                     </div>
                 </div>
@@ -41,7 +69,7 @@
 						$month = $arr[1];
 						$date = $arr[2];
 				?>
-				<div class="col-lg-4 col-md-6" onclick="location.href='/~team2/review/detail/<?=$review->id?>'">
+				<div class="col-lg-4 col-md-6" onclick="location.href='/~team2/review/detail/<?=$review->id?>'" style="cursor:pointer;">
 				
 					<?php
 						if ($review->image == null) {
@@ -67,7 +95,13 @@
 						}
 					}
 					?>
-								<h4><a href="./blog-details.html" style="color : #fff"><?=$review->title?></a></h4>
+								<h4 style="color : #fff; margin-bottom : -5px"><?=$review->title?></h4>
+								<span class="star">
+									★★★★★
+									<span style=" width : <?=$review->star * 10?>%">
+										★★★★★
+									</span>
+								</span>
 								<div class="b-time" style="color : #fff"><i class="icon_clock_alt"></i> <?=$year?>년 <?=$month?>월 <?=$date?>일</div>
 							</div>
 					</div>

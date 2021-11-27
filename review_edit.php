@@ -15,7 +15,7 @@
         padding: 7px 20px;
         color: #fff;
         vertical-align: middle;
-        background-color: #dfa974;
+        background-color: #38b6ff;
         cursor: pointer;
         height: 40px;
 		width : left;
@@ -52,7 +52,7 @@
 	  
 	  #submitBtn {
         font-family : 'Nanum Gothic'; 
-        background : #dfa974;
+        background : #38b6ff;
         border: none;
         border-radius: 5px;
         width : 80px;
@@ -63,6 +63,31 @@
 	  p {
 		  color : red;
 	  }
+	  
+	  
+	  .star {
+		position: relative;
+		font-size: 3rem;
+		color: #ddd;
+	  }
+	  
+	  .star input {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		opacity: 0;
+		cursor: pointer;
+	  }
+	  
+	  .star span {
+		width: 0;
+		position: absolute; 
+		left: 0;
+		color: #ffe000;
+		overflow: hidden;
+		pointer-events: none;
+	  }
 </style>
 
 
@@ -71,7 +96,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-text">
-                        <h2>후기 작성</h2>
+                        <h2>Edit review</h2>
                     </div>
                 </div>
             </div>
@@ -140,6 +165,16 @@
 						
 						<br><br><br>
 						
+						<div style="text-align : left;">
+							<span class="star">
+								★★★★★
+								<span>
+									★★★★★
+								</span>
+								<input type="range" oninput="drawStar(this)" value="0" step="1" min="0" max="10" name="star">
+							</span>
+						</div>
+						
 						<input type="text" name="title" value="<?php if(set_value('title') != '') {echo set_value('title');} else {echo $data['review']->title;} ?>" placeholder="제목을 입력하세요" style="width: 100%" id="title"/>
 					
 						<br><br>
@@ -186,6 +221,19 @@
 	
 	$(document).ready(function() {
         $('#title').focus();
+		
+		
+		
+		
+		// 유효성 검사에서 걸리면 별점 값 다시 불러오기
+		if('<?php echo set_value('star');?>' != '') {
+			$('.star span').css({ width: `${'<?php echo set_value('star'); ?>' * 10}%` });
+		}
+		else {
+			$('.star span').css({ width: `${'<?=$data['review']->star ?>' * 10}%` });
+		}
+		
+		
         
       });
 	
@@ -223,4 +271,11 @@
         document.getElementsByName('upload_file_name').value = file_name;
         
       });  
+	  
+	  
+	  
+		// 별 그리기
+		const drawStar = (target) => {
+			$('.star span').css({ width: `${target.value * 10}%` });
+		}
 	</script>

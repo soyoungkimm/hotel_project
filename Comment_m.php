@@ -12,6 +12,13 @@
 			return $this->db->query($sql)->result();
 		}
 		
+		
+		function getCommentIdContent() {
+			$sql = "select id, content from comment";
+			return $this->db->query($sql)->result();
+		}
+		
+		
 		function add($review_id, $content) {
 			$this->db->set('writeday', 'now()', false);
             $arr = array(
@@ -22,11 +29,33 @@
             $this->db->insert('comment', $arr);
 		}
 		
+		
+		function admin_add($data) {
+            $arr = array(
+				'user_id'=>$data['user_id'],
+                'review_id'=>$data['review_id'],
+                'writeday'=>$data['writeday'],
+                'content'=>$data['content']
+            );
+            $this->db->insert('comment', $arr);
+			
+			return $this->db->insert_id();
+		}
+		
+		
 		function edit($comment_id, $content) {
 			$sql = "update comment set content='".$content."'where id=".$comment_id;
 			
 			$this->db->query($sql);
 			
+		}
+		
+		
+		function admin_edit($data) {
+			$sql = "update comment set user_id=".$data['user_id'].", content='".$data['content']."', review_id=".$data['review_id'].
+			", writeday='".$data['writeday']."' where id=".$data['comment_id'];
+			
+			$this->db->query($sql);
 		}
 		
 		function getCommentById($id) {
@@ -46,6 +75,12 @@
 			$sql = "select * from comment where review_id=".$id;
 			
 			return $this->db->query($sql)->num_rows();
+		}
+		
+		function getCommentAll() {
+			$sql = "select * from comment order by id";
+			
+			return $this->db->query($sql)->result();
 		}
 	}
 	
