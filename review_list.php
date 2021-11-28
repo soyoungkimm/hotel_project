@@ -61,6 +61,7 @@
     <section class="blog-section blog-page spad" id="blogHide">
         <div class="container">
 			<div class="row" id="review_area">
+				<input type="hidden" id="total_review_num" value="9">
 				
 				<?php
 					foreach($data['reviews'] as $review) {
@@ -112,7 +113,7 @@
 				?>
 				
 				
-				<div class="col-lg-12">
+				<div class="col-lg-12" style="cursor:pointer;">
 					<div class="load-more">
 						<a onclick="create_review();" class="primary-btn">Load More</a>
 					</div>
@@ -127,15 +128,26 @@
 
 
 <script>
+	 
+	 var total_review_num = document.getElementById('total_review_num');
+	 
 	function create_review() {
 		
+		
+		
+		
+		if(<?=$data['reviews_num']?> == total_review_num.value) {
+			
+			total_review_num.value = <?=$data['reviews_num']?>;
+			
+		}
 		
 		$.ajax({
 		  url: "/~team2/review/ajax_review",
 		  type: "POST",
 		  datatype: "json",
 		  data: {
-			number : 6
+			number : total_review_num.value + 9
 		  },
 		  success : function(data) {
 			
@@ -148,15 +160,17 @@
 					var month = arr[1];
 					var date = arr[2];
 					
-					str += '<div class="col-lg-4 col-md-6" onclick="location.href=\'/~team2/review/detail/' + data.reviews[i].id + '\'">\n';
+					str += '<div class="col-lg-4 col-md-6" onclick="location.href=\'/~team2/review/detail/' + data.reviews[i].id + '\'" style="cursor:pointer;">\n';
 						if (data.reviews[i].image == null) {
 					
-							str += '<div class="blog-item set-bg" data-setbg="/~team2/my/img/review/default.jpg">\n';
+							str += '<div class="blog-item" style="background-image : url(/~team2/my/img/review/default.jpg); background-size : cover;">\n';
+							
 						
 						}
 						else {
-							str += '<div class="blog-item set-bg" data-setbg="/~team2/my/img/review/' + data.reviews[i].image + '">\n';
 						
+							str += '<div class="blog-item" style="background-image : url(/~team2/my/img/review/' + data.reviews[i].image + '); background-size : cover;">\n';
+							
 						}
 							
 							
@@ -169,24 +183,35 @@
 							}
 						}
 						
-									str += '<h4><a href="./blog-details.html" style="color : #fff">' + data.reviews[i].title + '</a></h4>\n' + 
+									str +=  '<h4 style="color : #fff; margin-bottom : -5px">' + data.reviews[i].title + '</h4>\n' + 
+											'<span class="star">\n' + 
+												'★★★★★\n' + 
+												'<span style=" width : ' + data.reviews[i].star * 10 + '%">\n' + 
+													'★★★★★\n' + 
+												'</span>\n' + 
+											'</span>\n' + 
 											'<div class="b-time" style="color : #fff"><i class="icon_clock_alt"></i>' + year + '년' + month + '월' + date + '일' + '</div>\n' + 
 										'</div>\n' + 
 									'</div>\n' + 
 							'</div>\n';
 				}
 				
-				str += '<div class="col-lg-12">\n' + 
-							'<div class="load-more">\n' + 
-								'<a onclick="create_review();" class="primary-btn">Load More</a>\n' + 
-							'</div>\n' + 
+				 str += '<div class="col-lg-12" style="cursor:pointer;">\n' + 
+							'<div class="load-more">\n' +
+								'<a onclick="create_review();" class="primary-btn">Load More</a>\n' +
+							'</div>\n' +
 						'</div>\n';
+						
+							
 			
-			console.log(str);
+			
 			
 			// comment 개수 바꾸기
 			$('#review_area').empty();
 			$("#review_area").append(str);
+			
+			
+			total_review_num.value = data.total_review_num;
 			
 		  },
 		  error: function(request,status,error){ // 실패
