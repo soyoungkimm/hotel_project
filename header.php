@@ -181,9 +181,9 @@
         </div>
         <nav class="mainmenu mobile-menu">
             <ul>
-                <li class="active"><a href="/~team2/hotel">Home</a></li>
+                <li class="active"><a href="/~team2">Home</a></li>
                 <li><a href="/~team2/room">Rooms</a></li>
-                <li><a href="/~team2/aboutus.html">About Us</a></li>
+                <li><a href="/~team2/aboutus">About Us</a></li>
                 <li><a href="./pages.html">Pages</a>
                     <ul class="dropdown">
                         <li><a href="./room-details.html">Room Details</a></li>
@@ -227,9 +227,9 @@
                         <div class="nav-menu">
                             <nav class="mainmenu">
                                 <ul>
-                                    <li class="active"><a href="/~team2/hotel">Home</a></li>
+                                    <li><a href="/~team2">Home</a></li>
                                     <li><a href="/~team2/room">Rooms</a></li>
-                                    <li><a href="/~team2/aboutus.html">About Us</a></li>
+                                    <li><a href="/~team2/aboutus">About Us</a></li>
 									<li><a href="/~team2/aboutus.html">Event</a></li>
                                     <!--<li><a href="./pages.html">Pages</a>
                                         <ul class="dropdown">
@@ -239,13 +239,16 @@
                                             <li><a href="#">Premium Room</a></li>
                                         </ul>
                                     </li>-->
-                                    <li><a href="/~team2/review">Review</a></li>
+                                    <li class="<?php if (isset($active) && $active == 'review') echo 'active';?>"><a href="/~team2/review">Review</a></li>
+									<li><a href="#">Q&A</a></li>
+									<li> <a href="#elegantModalForm" class="btn btn-default btn-rounded" data-toggle="modal">Login</a></li>
+									<li><a href="#">SignUp</a></li>
                                     <!--<li><a href="./contact.html">Contact</a></li>-->
                                 </ul>
                             </nav>
-                            <div class="nav-right search-switch">
+                            <!--<div class="nav-right search-switch">
                                 <i class="icon_search"></i>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -255,5 +258,62 @@
             </div>
 		
         </div>
+		<!-- Modal start -->
+											<div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+											  
+												<form name="form_login" method="post" action="/login/check">
+											  <div class="modal-dialog" role="document">
+												<!--Content-->
+												<div class="modal-content form-elegant">
+												  <!--Header-->
+												  <div class="modal-header text-center">
+													<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Sign in</strong></h3>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													  <span aria-hidden="true">&times;</span>
+													</button>
+												  </div>
+												  <!--Body-->
+												  <div class="modal-body mx-4">
+													<!--Body-->
+													
+													<div class="md-form mb-5">
+													  <input type="text" name= "uid" value="" class="form-control validate">
+													  <label data-error="wrong" data-success="right" for="Form-email1">Your id</label>
+													 
+													</div>
+
+
+													<div class="md-form pb-3">
+													  <input type="pwd" " name= "pwd" value="" class="form-control validate">
+													 
+													  <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
+													  <p class="font-small blue-text d-flex justify-content-end">Forgot <a href="/~team2/register" class="blue-text ml-1">
+															Register?</a></p>
+														  
+													</div>
+														
+													<div class="text-center mb-3">
+													  <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a" onclick="javascript:form_login.sumbit();">Sign in</button>
+													</div>
+													
+													<div class="text-center mb-3">
+													  <button type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a" data-dismiss="modal">Sign in</button>
+													</div>
+													</form>
+												  </div>
+												  <!--Footer-->
+												 
+												</div>
+												<!--/.Content-->
+											  </div>
+											 
+											</div>
+											<!-- Modal -->
+
+											
+											 
+											</div>
+											<!-- Modal end -->
     </header>
     <!-- Header End -->
+				
